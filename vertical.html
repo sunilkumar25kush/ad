@@ -1,0 +1,543 @@
+<!doctype html>
+<html lang="en">
+<!--
+  ResumeBuddy — 50-Second Vertical Commercial Advertisement (9:16 Mobile Edition)
+  Featuring: Real Templates (DevPort Cosmic, Spotlight Obsidian, Poster Brutalist, Clean Minimalist ATS)
+  Real Portfolio Data: Sunil Kumar (HTML & JavaScript Developer / Full Stack)
+-->
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ResumeBuddy — AI Resume & Portfolio (9:16 Vertical 50s)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.module.js"
+  }
+}
+</script>
+<style>
+:root {
+  --bg-cream: #FAF7F2;
+  --color-forest: #0D3B2E;
+  --color-coral: #FF4438;
+  --color-cobalt: #2563EB;
+  --color-mint: #10B981;
+  --ink-primary: #0F172A;
+  --ink-secondary: #475569;
+  --ink-muted: #94A3B8;
+  --border-light: rgba(15, 23, 42, 0.08);
+  --shadow-float: 0 24px 60px -12px rgba(15, 23, 42, 0.12);
+  --shadow-crisp: 0 10px 30px rgba(15, 23, 42, 0.08);
+  --fit: 1;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body {
+  width: 100%; height: 100%;
+  background: var(--bg-cream);
+  overflow: hidden;
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  color: var(--ink-primary);
+  user-select: none;
+}
+
+#stage {
+  position: fixed;
+  left: 50%; top: 50%;
+  width: 1080px; height: 1920px;
+  transform: translate(-50%, -50%) scale(var(--fit));
+  overflow: hidden;
+  background: var(--bg-cream);
+}
+
+#world {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+  transform-style: preserve-3d;
+  perspective: 1600px;
+}
+
+#gl {
+  position: absolute;
+  inset: 0;
+  width: 1080px; height: 1920px;
+  display: block;
+  pointer-events: none;
+}
+
+.subtle-grid-dots {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(15, 23, 42, 0.06) 1.5px, transparent 1.5px);
+  background-size: 32px 32px;
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+#dom { position: absolute; inset: 0; pointer-events: none; }
+
+.pill-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 22px;
+  border-radius: 100px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 15px;
+  font-weight: 600;
+  text-transform: uppercase;
+  background: #fff;
+  border: 1px solid var(--border-light);
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.06);
+}
+.pill-badge.green { background: #ECFDF5; color: #065F46; border-color: #A7F3D0; }
+.pill-badge.coral { background: #FFF1F2; color: #9F1239; border-color: #FECDD3; }
+
+.headline {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1.05;
+  color: var(--ink-primary);
+  text-align: center;
+}
+.headline.hero-xl { font-size: 78px; }
+.headline.hero-lg { font-size: 64px; }
+.headline.hero-md { font-size: 48px; }
+
+.highlight-pill {
+  position: relative;
+  display: inline-block;
+  padding: 2px 16px;
+  border-radius: 14px;
+  color: #fff !important;
+}
+.highlight-pill.coral { background: var(--color-coral); }
+.highlight-pill.forest { background: var(--color-forest); }
+.highlight-pill.cobalt { background: var(--color-cobalt); }
+
+.sticker {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 18px;
+  border-radius: 100px;
+  font-size: 14px;
+  font-weight: 700;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.1);
+}
+.sticker.yellow { background: #FEF08A; color: #713F12; transform: rotate(-2deg); }
+.sticker.blue { background: #1E1B4B; color: #E0E7FF; transform: rotate(2deg); }
+.sticker.mint { background: #D1FAE5; color: #065F46; }
+
+.scene-layer {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 48px;
+  opacity: 0;
+  pointer-events: none;
+  transform-style: preserve-3d;
+}
+
+/* Scene 1 */
+.sc1-card-vert {
+  background: #fff;
+  border-radius: 28px;
+  padding: 40px;
+  box-shadow: var(--shadow-float);
+  border: 1px solid var(--border-light);
+  width: 100%;
+  max-width: 860px;
+  margin-top: 48px;
+}
+.stat-big {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 72px;
+  font-weight: 800;
+  color: var(--ink-primary);
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+}
+.progress-track {
+  height: 12px;
+  background: #F1F5F9;
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  margin: 20px 0;
+}
+.progress-fill-red { width: 38%; background: #EF4444; }
+.progress-fill-amber { width: 22%; background: #F59E0B; }
+.progress-fill-green { width: 40%; background: #10B981; }
+
+/* Scene 3: Grid of 4 Templates */
+.templates-grid-vert {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  width: 100%;
+  max-width: 900px;
+  margin-top: 36px;
+}
+.template-card-vert {
+  background: #fff;
+  border-radius: 22px;
+  padding: 22px;
+  border: 1.5px solid var(--border-light);
+  box-shadow: var(--shadow-crisp);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 420px;
+}
+.template-card-vert.featured {
+  border: 2.5px solid var(--color-coral);
+  box-shadow: 0 20px 50px rgba(255, 68, 56, 0.25);
+}
+
+/* Scene 4: Live Portfolio */
+.portfolio-card-vert {
+  width: 100%;
+  max-width: 860px;
+  background: #0B132B;
+  color: #fff;
+  border-radius: 28px;
+  padding: 36px;
+  box-shadow: var(--shadow-float);
+  border: 1px solid rgba(0,240,255,0.3);
+  margin-top: 36px;
+}
+
+/* Scene 5 */
+.teams-grid-vert {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  width: 100%;
+  max-width: 800px;
+  margin-top: 48px;
+}
+.team-pill-vert {
+  padding: 24px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: #fff;
+  text-align: center;
+}
+.team-pill-vert.highlight {
+  background: #fff;
+  color: var(--color-forest);
+}
+
+/* Scene 6 */
+.cta-card-vert {
+  width: 100%;
+  max-width: 880px;
+  background: #fff;
+  border-radius: 36px;
+  padding: 60px 48px;
+  box-shadow: var(--shadow-float);
+  border: 1.5px solid var(--border-light);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.btn-cta-vert {
+  width: 100%;
+  max-width: 600px;
+  padding: 24px 48px;
+  border-radius: 100px;
+  background: var(--color-coral);
+  color: #fff;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 22px;
+  font-weight: 800;
+  text-transform: uppercase;
+  border: none;
+  box-shadow: 0 14px 40px rgba(255, 68, 56, 0.4);
+  margin-top: 36px;
+}
+</style>
+</head>
+<body>
+
+<div id="stage">
+  <div id="world">
+    <canvas id="gl"></canvas>
+    <div class="subtle-grid-dots"></div>
+
+    <div id="dom">
+      <!-- SCENE 01: THE HOOK (0s - 7s) -->
+      <section class="scene-layer" id="sc1">
+        <div class="pill-badge coral">The ATS Filter Trap</div>
+        <h1 class="headline hero-xl" style="margin-top: 28px;">
+          Your resume is<br>
+          <span class="highlight-pill coral">holding you back.</span>
+        </h1>
+        <div class="sc1-card-vert">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span style="font-size: 16px; font-weight:700; color:var(--ink-secondary);">Resume ATS Pass Rate</span>
+            <span class="sticker yellow">Filtered Out</span>
+          </div>
+          <div class="stat-big" style="margin-top: 12px;">
+            <span id="sc1-stat-vert">41.2%</span>
+            <span style="font-size: 18px; color:#EF4444; font-weight:700;">▼ Missing Keywords</span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill-red" id="pv-red"></div>
+            <div class="progress-fill-amber" id="pv-amber"></div>
+            <div class="progress-fill-green" id="pv-green"></div>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-top: 18px;">
+            <span style="font-size: 14px; font-family:'JetBrains Mono'; color:var(--ink-muted);">Parsed 18 skills · 0 portfolios</span>
+            <div style="padding: 10px 20px; border-radius: 10px; background: var(--color-forest); color: #fff; font-weight:700; font-size:14px;">
+              Fix with AI ↗
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SCENE 02: BRAND GENESIS (7s - 14s) -->
+      <section class="scene-layer" id="sc2">
+        <div style="display:flex; align-items:center; gap:16px; background:#fff; padding:16px 36px; border-radius:100px; box-shadow:var(--shadow-crisp);">
+          <div style="width:48px; height:48px; border-radius:14px; background:var(--color-coral); display:flex; align-items:center; justify-content:center; color:#fff;">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z"/></svg>
+          </div>
+          <span style="font-size:34px; font-weight:800;">ResumeBuddy</span>
+        </div>
+        <h1 class="headline hero-xl" style="margin-top: 36px;">
+          Meet your next-gen<br>
+          <span class="highlight-pill cobalt">AI Resume & Portfolio</span> suite.
+        </h1>
+        <div style="display:flex; gap:16px; margin-top: 40px;">
+          <div class="sticker yellow">30s Instant Import</div>
+          <div class="sticker mint">96% ATS Match</div>
+          <div class="sticker blue">1-Click Live Deploy</div>
+        </div>
+      </section>
+
+      <!-- SCENE 03: SHOWCASING REAL TEMPLATES (14s - 27s) -->
+      <section class="scene-layer" id="sc3">
+        <div class="pill-badge green">DESIGN SYSTEM & LIVE SHOWCASE</div>
+        <h2 class="headline hero-lg" style="margin-top: 20px;">
+          6 ATS Resumes.<br>
+          <span class="highlight-pill coral">6 Developer Portfolios.</span>
+        </h2>
+        <div class="templates-grid-vert" id="sc3-cards">
+          <!-- 1. Real DevPort Cosmic -->
+          <div class="template-card-vert featured">
+            <span style="font-size:11px; font-weight:700; color:#00F0FF; font-family:'JetBrains Mono';">FEATURED</span>
+            <div style="flex:1; margin:12px 0; background:#0B132B; border-radius:12px; padding:14px; color:#00F0FF;">
+              <div style="font-size:13px; font-weight:800; color:#fff;">sunil kumar</div>
+              <div style="font-size:10px; color:#00F0FF; font-family:'JetBrains Mono';">HTML & JS Developer</div>
+              <div style="margin-top:8px; font-size:11px; color:#fff;">AI-Resume-builder</div>
+              <div style="font-size:9px; color:#94A3B8;">#React #TypeScript #Node</div>
+            </div>
+            <div style="font-size:14px; font-weight:800; color:var(--color-coral);">DevPort Cosmic</div>
+          </div>
+
+          <!-- 2. Real Spotlight Obsidian -->
+          <div class="template-card-vert">
+            <span style="font-size:11px; font-weight:700; color:#EF4444; font-family:'JetBrains Mono';">PREMIUM ★</span>
+            <div style="flex:1; margin:12px 0; background:#0D1117; border-radius:12px; padding:14px; color:#fff;">
+              <div style="font-size:13px; font-weight:800;">Spotlight Obsidian</div>
+              <div style="font-size:10px; color:#94A3B8; margin-top:2px;">Crimson Halo · Expertise Tree</div>
+              <div style="margin-top:8px; font-size:10px; color:#EF4444;">Interactive Projects ↗</div>
+            </div>
+            <div style="font-size:14px; font-weight:700;">Spotlight Obsidian</div>
+          </div>
+
+          <!-- 3. Real Poster Brutalist -->
+          <div class="template-card-vert">
+            <span style="font-size:11px; font-weight:700; font-family:'JetBrains Mono';">BRUTALIST</span>
+            <div style="flex:1; margin:12px 0; background:#000; border-radius:12px; padding:14px; color:#fff;">
+              <div style="font-size:18px; font-weight:900;">SUNIL KUMAR</div>
+              <div style="font-size:9px; color:#999; margin-top:4px;">✦ CREATIVE • VISIONARY ✦</div>
+            </div>
+            <div style="font-size:14px; font-weight:700;">Poster Brutalist</div>
+          </div>
+
+          <!-- 4. Real Clean Minimalist ATS -->
+          <div class="template-card-vert">
+            <span style="font-size:11px; font-weight:700; color:#10B981; font-family:'JetBrains Mono';">ATS 96%</span>
+            <div style="flex:1; margin:12px 0; background:#FAFAFA; border-radius:12px; padding:14px; color:#111; border:1px solid #E5E7EB;">
+              <div style="font-size:13px; font-weight:800; border-bottom:1.5px solid #111;">SUNIL KUMAR</div>
+              <div style="font-size:10px; color:#4B5563; margin-top:4px;">Full Stack Engineer · India</div>
+              <div style="margin-top:6px; font-size:9px; font-weight:700; color:#10B981;">Greenhouse Verified</div>
+            </div>
+            <div style="font-size:14px; font-weight:700;">Clean Minimalist ATS</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SCENE 04: REAL LIVE DEVELOPER PORTFOLIO (27s - 38s) -->
+      <section class="scene-layer" id="sc4">
+        <div class="pill-badge coral">ONE-CLICK LIVE PORTFOLIO</div>
+        <h2 class="headline hero-lg" style="margin-top: 20px;">
+          A targeted resume gets the screen.<br>
+          <span class="highlight-pill forest">A live portfolio</span> gets the offer.
+        </h2>
+        <div class="portfolio-card-vert" id="sc4-card">
+          <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:14px;">
+            <span style="font-family:'JetBrains Mono'; font-size:13px; color:#00F0FF;">resumebuddy.app/p/devport</span>
+            <span class="sticker mint">Live ↗</span>
+          </div>
+          <div style="margin-top:20px; display:flex; align-items:center; gap:16px;">
+            <div style="width:56px; height:56px; border-radius:50%; background:linear-gradient(135deg, #00F0FF, #8B5CF6); display:flex; align-items:center; justify-content:center; color:#000; font-weight:800; font-size:18px;">SK</div>
+            <div>
+              <h3 style="font-size:22px; font-weight:800;">sunil kumar</h3>
+              <p style="font-size:13px; color:#00F0FF; font-family:'JetBrains Mono';">HTML and JavaScript developer</p>
+            </div>
+          </div>
+          <div style="margin-top:20px; padding:18px; border-radius:14px; background:rgba(255,255,255,0.05); border:1px solid rgba(0,240,255,0.2);">
+            <div style="font-size:11px; font-family:'JetBrains Mono'; color:#00F0FF;">// FEATURED PROJECT</div>
+            <div style="font-size:16px; font-weight:800; margin-top:4px;">AI-Resume-builder</div>
+            <p style="font-size:12px; color:#94A3B8; margin-top:4px;">Full-stack AI resume and portfolio engine with ATS keyword optimization.</p>
+            <div style="display:flex; gap:6px; margin-top:10px;">
+              <span style="padding:2px 8px; border-radius:4px; background:rgba(0,240,255,0.15); font-size:11px; font-family:'JetBrains Mono'; color:#00F0FF;">#React</span>
+              <span style="padding:2px 8px; border-radius:4px; background:rgba(0,240,255,0.15); font-size:11px; font-family:'JetBrains Mono'; color:#00F0FF;">#TypeScript</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SCENE 05: INTERVIEW WINNING IMPACT (38s - 44s) -->
+      <section class="scene-layer" id="sc5" style="background: var(--color-forest); color: #fff;">
+        <div class="pill-badge" style="background: rgba(255,255,255,0.15); color: #FDE047; border: none; margin-bottom: 24px;">
+          MEASURABLE OUTCOMES
+        </div>
+        <h1 class="headline hero-xl" style="color: #fff;">
+          Engineered for technical careers.<br>
+          <span style="color: #6EE7B7;">Verified by top engineering teams.</span>
+        </h1>
+        <div class="teams-grid-vert" id="sc5-teams">
+          <div class="team-pill-vert">Stripe</div>
+          <div class="team-pill-vert highlight">Vercel</div>
+          <div class="team-pill-vert highlight">Linear</div>
+          <div class="team-pill-vert">Shopify</div>
+        </div>
+      </section>
+
+      <!-- SCENE 06: FINAL BRAND REVEAL & CTA (44s - 50s) -->
+      <section class="scene-layer" id="sc6">
+        <div class="cta-card-vert">
+          <div style="display:flex; align-items:center; gap:16px; margin-bottom:24px;">
+            <div style="width:60px; height:60px; border-radius:18px; background:var(--color-coral); display:flex; align-items:center; justify-content:center; color:#fff;">
+              <svg width="34" height="34" viewBox="0 0 24 24" fill="currentColor"><path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z"/></svg>
+            </div>
+            <span style="font-size:44px; font-weight:800; color:var(--ink-primary);">ResumeBuddy</span>
+          </div>
+          <h2 class="headline hero-lg">
+            Build smarter.<br>
+            <span class="highlight-pill coral">Apply confidently.</span>
+          </h2>
+          <p style="font-size:22px; color:var(--ink-secondary); margin-top:20px;">
+            Create an interview-winning resume and live portfolio in minutes.
+          </p>
+          <button class="btn-cta-vert">
+            BUILD YOUR RESUME TODAY
+          </button>
+          <div style="margin-top:28px; font-family:'JetBrains Mono'; font-size:16px; font-weight:600; color:var(--color-cobalt);">
+            ai-resume-builder-client-three.vercel.app
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import * as THREE from 'three';
+
+function fitStage() {
+  const scale = Math.min(window.innerWidth / 1080, window.innerHeight / 1920);
+  document.documentElement.style.setProperty('--fit', scale);
+}
+window.addEventListener('resize', fitStage);
+fitStage();
+
+const canvas = document.getElementById('gl');
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(60, 1080 / 1920, 0.1, 1000);
+camera.position.set(0, 0, 20);
+
+const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+renderer.setSize(1080, 1920);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+const count = 200;
+const pGeo = new THREE.BufferGeometry();
+const pPos = new Float32Array(count * 3);
+for (let i = 0; i < count * 3; i += 3) {
+  pPos[i] = (Math.sin(i * 13.7) * 0.5 + 0.5) * 40 - 20;
+  pPos[i + 1] = (Math.cos(i * 9.1) * 0.5 + 0.5) * 60 - 30;
+  pPos[i + 2] = (Math.sin(i * 47.3) * 0.5 + 0.5) * 30 - 15;
+}
+pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
+const particles = new THREE.Points(pGeo, new THREE.PointsMaterial({ size: 0.25, color: 0xFF6B35, transparent: true, opacity: 0.25 }));
+scene.add(particles);
+
+const DURATION = 50.0;
+const tl = gsap.timeline({
+  repeat: -1,
+  onUpdate: () => {
+    const t = tl.time();
+    particles.rotation.y = t * 0.02;
+    renderer.render(scene, camera);
+  }
+});
+
+// Scene 1
+tl.set('#sc1', { opacity: 1 }, 0.0);
+tl.fromTo('#sc1 .sc1-card-vert', { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 0.8 }, 0.5);
+tl.to('#sc1-stat-vert', { textContent: '96.4%', duration: 0.8 }, 3.5);
+tl.to('#pv-green', { width: '85%', duration: 0.8 }, 3.5);
+tl.to('#pv-red', { width: '8%', duration: 0.8 }, 3.5);
+tl.to('#sc1', { opacity: 0, duration: 0.7 }, 6.3);
+
+// Scene 2
+tl.set('#sc2', { opacity: 1 }, 7.0);
+tl.fromTo('#sc2 h1', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.8 }, 7.4);
+tl.to('#sc2', { opacity: 0, duration: 0.7 }, 13.3);
+
+// Scene 3
+tl.set('#sc3', { opacity: 1 }, 14.0);
+tl.fromTo('#sc3-cards .template-card-vert', { opacity: 0, y: 40 }, { opacity: 1, y: 0, stagger: 0.12, duration: 0.8 }, 14.2);
+tl.to('#sc3', { opacity: 0, duration: 0.7 }, 26.3);
+
+// Scene 4
+tl.set('#sc4', { opacity: 1 }, 27.0);
+tl.fromTo('#sc4-card', { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.9 }, 27.5);
+tl.to('#sc4', { opacity: 0, duration: 0.7 }, 37.3);
+
+// Scene 5
+tl.set('#sc5', { opacity: 1 }, 38.0);
+tl.fromTo('#sc5-teams .team-pill-vert', { opacity: 0, y: 30 }, { opacity: 1, y: 0, stagger: 0.12, duration: 0.6 }, 38.5);
+tl.to('#sc5', { opacity: 0, duration: 0.7 }, 43.3);
+
+// Scene 6
+tl.set('#sc6', { opacity: 1 }, 44.0);
+tl.fromTo('#sc6 .cta-card-vert', { opacity: 0, scale: 0.88 }, { opacity: 1, scale: 1, duration: 0.9 }, 44.3);
+tl.to('#sc6', { opacity: 0, duration: 0.6 }, 49.4);
+
+window.OPENER = { W: 1080, H: 1920, ready: true, DURATION, tl, seek: (t) => { tl.time(t); } };
+tl.play(0);
+</script>
+</body>
+</html>
